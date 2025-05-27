@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for demo-lexgib on 2025-05-27T16:57:41+02:00
+# fly.toml app configuration file generated for demo-lexgib on 2025-05-27T17:04:02+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -10,10 +10,22 @@ primary_region = 'waw'
   dockerfile = 'Dockerfile'
 
 [env]
+  OPENAI_API_KEY = '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'
   PORT = '8000'
-  OPENAI_API_KEY = "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"
 
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+[[services]]
+  internal_port = 8000
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443

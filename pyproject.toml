@@ -1,5 +1,5 @@
 [project]
-# name = "app"
+name = "app"
 version = "0.1.0"
 description = ""
 readme = "README.md"
@@ -35,7 +35,6 @@ generate = "generate:generate_index"
 generate_index = "generate:generate_index"
 generate_ui = "generate:generate_ui_for_workflow"
 
-[tool]
 [tool.mypy]
 python_version = "3.11"
 plugins = "pydantic.mypy"
@@ -57,3 +56,6 @@ ignore_missing_imports = false
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{ include = "app" }]

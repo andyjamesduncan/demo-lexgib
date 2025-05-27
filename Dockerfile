@@ -11,7 +11,7 @@ ENV PATH="/root/.local/bin:$PATH"
 # Copy only critical files first
 COPY pyproject.toml poetry.lock README.md ./
 RUN poetry config virtualenvs.create false
-RUN poetry install --no-root --no-interaction --no-ansi
+RUN poetry install --no-root --no-interaction --no-ansi || (echo "❌ Poetry install failed!" && cat /root/.cache/pypoetry/log/* || true)
 
 COPY app ./app
 COPY main.py ./

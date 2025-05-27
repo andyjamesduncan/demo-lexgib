@@ -19,7 +19,7 @@ RUN poetry config virtualenvs.create false
 RUN echo "Installing dependencies..." && poetry show || echo "Empty env"
 
 # Install dependencies (with debug on failure)
-RUN poetry install --no-root --no-interaction --no-ansi || (echo "❌ Poetry install failed!" && cat /root/.cache/pypoetry/log/* || true)
+RUN poetry install --no-root --no-interaction --no-ansi || (cat /root/.cache/pypoetry/log/* && exit 1)
 
 RUN pip install uvicorn
 

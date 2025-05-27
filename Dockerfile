@@ -19,7 +19,7 @@ RUN poetry config virtualenvs.create false
 
 # Install dependencies WITHOUT installing the current app as a package
 # If it fails, show the poetry error log
-RUN poetry install --no-root --no-interaction --no-ansi
+RUN poetry install --no-root --no-interaction --no-ansi || (echo "Poetry install failed. Showing logs:" && cat /root/.cache/pypoetry/log/* || true)
 
 # Copy application code after dependencies are installed
 COPY app ./app

@@ -21,6 +21,8 @@ RUN echo "Installing dependencies..." && poetry show || echo "Empty env"
 # Install dependencies (with debug on failure)
 RUN poetry install --no-root --no-interaction --no-ansi || (echo "❌ Poetry install failed!" && cat /root/.cache/pypoetry/log/* || true)
 
+RUN pip install uvicorn
+
 # Sanity check that uvicorn is installed
 RUN echo "✅ Checking for uvicorn:" && which uvicorn || echo "❌ uvicorn NOT found"
 
@@ -30,5 +32,7 @@ COPY main.py ./
 
 # Expose FastAPI port
 EXPOSE 8000
+
+RUN echo "Checking if uvicorn is installed..." && which uvicorn || echo "❌ uvicorn is NOT installed"
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

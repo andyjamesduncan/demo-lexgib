@@ -1,3 +1,6 @@
+import sys
+print("🚀 Starting LlamaIndex server...", file=sys.stderr)
+
 import logging
 
 from dotenv import load_dotenv

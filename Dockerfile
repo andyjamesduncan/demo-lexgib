@@ -11,7 +11,7 @@ ENV PATH="/root/.local/bin:$PATH"
 COPY pyproject.toml poetry.lock README.md app/ ./
 
 RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction --no-ansi
+RUN poetry install --no-root --no-interaction --no-ansi
 
 # ⬇️ Now bring in the rest of your files (like main.py, components/, etc.)
 COPY . .

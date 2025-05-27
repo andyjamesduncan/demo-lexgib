@@ -10,7 +10,6 @@ primary_region = 'waw'
   dockerfile = 'Dockerfile'
 
 [env]
-  OPENAI_API_KEY = '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'
   PORT = '8000'
 
 [[vm]]

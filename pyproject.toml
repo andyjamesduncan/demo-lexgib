@@ -1,25 +1,25 @@
 [tool.poetry]
 name = "llamaindex-app"
 version = "0.1.0"
-description = "A FastAPI server using LlamaIndex"
-authors = ["Andy <andy@example.com>"]
+description = "LlamaIndex + FastAPI app"
+authors = ["Andy Duncan <andyjamesduncan@gmail.com>"]
 packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = ">=0.115.11,<0.115.13"
-uvicorn = "^0.29.0"
-python-dotenv = "^1.0.1"
+python-dotenv = "^1.0.0"
 pydantic = "<2.10"
 aiostream = "^0.5.2"
-docx2txt = "^0.8"
-numpy = "1.26.4"
 llama-index = "^0.12.37"
 llama-index-core = "^0.12.28"
 llama-index-server = "^0.1.16"
 llama-index-llms-openai = "^0.3.2"
 llama-index-embeddings-openai = "^0.3.1"
 llama-index-agent-openai = "^0.4.0"
+docx2txt = "^0.8"
+numpy = "1.26.4"
+uvicorn = "^0.23.2"
+fastapi = "^0.115.11"
 
 [build-system]
 requires = ["poetry-core"]

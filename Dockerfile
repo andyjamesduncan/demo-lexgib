@@ -1,38 +1,23 @@
+# Use slim Python image
 FROM python:3.12-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install system packages
+# Install system dependencies
 RUN apt-get update && apt-get install -y build-essential curl && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.local/bin:$PATH"
+# Install pip (no poetry)
+RUN pip install --upgrade pip
 
-# Copy only pyproject + README early
-COPY pyproject.toml poetry.lock README.md ./
+# Install FastAPI and Uvicorn directly
+RUN pip install fastapi uvicorn
 
-# Disable Poetry virtualenvs
-RUN poetry config virtualenvs.create false
+# Copy test app file into container
+COPY test_main.py ./main.py
 
-# Print debug info before install
-RUN echo "Installing dependencies..." && poetry show || echo "Empty env"
-
-# Install dependencies (with debug on failure)
-RUN poetry install --no-root --no-interaction --no-ansi || (cat /root/.cache/pypoetry/log/* && exit 1)
-
-RUN pip install uvicorn
-
-# Sanity check that uvicorn is installed
-RUN echo "✅ Checking for uvicorn:" && which uvicorn || echo "❌ uvicorn NOT found"
-
-# Copy source code
-COPY app ./app
-COPY main.py ./
-
-# Expose FastAPI port
+# Expose port 8000 to Fly.io proxy
 EXPOSE 8000
 
-RUN echo "Checking if uvicorn is installed..." && which uvicorn || echo "❌ uvicorn is NOT installed"
-
+# Run test app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -3,27 +3,32 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
-from llama_index.server import LlamaIndexServer, UIConfig
-
-from app.settings import init_settings
-from app.workflow import create_workflow
-
 logger = logging.getLogger("uvicorn")
-load_dotenv()
-init_settings()
+logger.setLevel(logging.DEBUG)
 
+print("📦 Loading environment...")
+load_dotenv()
+
+print("🛠 Initializing settings...")
+try:
+    from app.settings import init_settings
+    init_settings()
+except Exception as e:
+    print(f"❌ Failed to init settings: {e}")
+
+print("🚀 Creating FastAPI app...")
 app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"message": "🧪 Base FastAPI app is running"}
+    return {"message": "🧪 Basic app responding"}
 
-@app.get("/debug")
-def debug():
-    return {"status": "✅ FastAPI is live"}
-
-# Mount LlamaIndex UI under a subpath
 try:
+    print("📚 Importing LlamaIndex...")
+    from llama_index.server import LlamaIndexServer, UIConfig
+    from app.workflow import create_workflow
+
+    print("⚙️ Starting LlamaIndexServer...")
     llama_server = LlamaIndexServer(
         workflow_factory=create_workflow,
         ui_config=UIConfig(component_dir="components", dev_mode=False),
@@ -31,5 +36,6 @@ try:
         env="production",
     )
     app.mount("/llama", llama_server)
+    print("✅ LlamaIndexServer mounted at /llama")
 except Exception as e:
-    logger.error(f"Failed to start LlamaIndexServer: {e}")
+    print(f"❌ LlamaIndexServer failed: {e}")

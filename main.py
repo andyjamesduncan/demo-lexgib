@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from llama_index.server import LlamaIndexServer, UIConfig
 from app.settings import init_settings
 from app.workflow import create_workflow
+from fastapi.staticfiles import StaticFiles
 
 # Setup logging for Uvicorn
 logger = logging.getLogger("uvicorn")
@@ -37,8 +38,10 @@ def create_app():
 
     # Simple homepage to confirm deployment
     @app.get("/")
-    def read_root():
-        return {"message": "LlamaIndex server is running in production."}
+    async def root():
+        return {"message": "✅ App is live and responding"}
+
+    app.mount("/chat", StaticFiles(directory=".ui", html=True), name="chat-ui")
 
     return app
 

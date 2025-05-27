@@ -19,7 +19,7 @@ RUN poetry config virtualenvs.create false
 
 # Install dependencies WITHOUT installing the current app as a package
 # If it fails, show the poetry error log
-RUN poetry install --no-root --no-interaction --no-ansi || cat /root/.cache/pypoetry/log/* || true
+RUN poetry install --no-root --no-interaction --no-ansi
 
 # Copy application code after dependencies are installed
 COPY app ./app
@@ -33,4 +33,5 @@ COPY storage ./storage
 EXPOSE 8000
 
 # Run the app
+RUN which uvicorn || echo "uvicorn NOT FOUND"
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

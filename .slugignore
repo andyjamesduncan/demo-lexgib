@@ -1,0 +1,36 @@
+# Ignore local environment folders
+.venv/
+env/
+venv/
+
+# Ignore data, docs, tests, and other large or unnecessary files
+data/
+tests/
+docs/
+
+# Ignore large binaries or raw files you don't want in slug
+*.pdf
+*.mp4
+*.avi
+*.mov
+
+# Ignore cache, logs, and temp files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.cache/
+
+# Ignore build-related folders
+build/
+dist/
+*.egg-info/
+
+# If you have models or data artifacts that are large
+models/
+artifacts/
+
+# Optional: ignore local Jupyter notebooks if not needed in deployment
+*.ipynb
+
